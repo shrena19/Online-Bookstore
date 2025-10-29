@@ -66,7 +66,7 @@ nav {
     transform: scale(1.1);
 }
 
-/* Main Section */
+
 .main {
     display: flex;
     align-items: center;
@@ -107,7 +107,7 @@ nav {
     background: #066c6f;
 }
 
-/* Services */
+
 .services {
     padding: 80px 50px;
     text-align: center;
@@ -190,7 +190,7 @@ nav {
     background: #066c6f;
 }
 
-/* Footer */
+
 footer {
     background: #089da1;
     color: white;
@@ -199,7 +199,7 @@ footer {
     font-size: 14px;
 }
 
-/* Responsive */
+
 @media (max-width: 900px) {
     .main {
         flex-direction: column;
