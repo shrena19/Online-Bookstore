@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Online Bookstore</title>
+
+  <style>
+    /* ---------- BASIC RESET ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: #ffffff; /* White background */
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ---------- CONTAINER ---------- */
+    .login-container {
+      background: #fff;
+      width: 350px;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    .login-container h2 {
+      color: #089da1;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    /* ---------- FORM INPUTS ---------- */
+    form input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    form input:focus {
+      border-color: #089da1;
+      box-shadow: 0 0 5px rgba(8, 157, 161, 0.3);
+    }
+
+    /* ---------- BUTTON ---------- */
+    .btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background-color: #089da1;
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #066f74;
+    }
+
+    /* ---------- LINK TEXT ---------- */
+    p {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    p a {
+      color: #089da1;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    p a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Create Account</h2>
+
+    <form id="registerForm">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email Address (must end with @email.com)" required>
+      <input type="password" id="password" placeholder="Password" required minlength="6">
+      <button type="submit" class="btn">Register</button>
+
+      <p>Already have an account? <a href="login.html">Login here</a></p>
+    </form>
+  </div>
+
+  <script>
+    // ---------- REGISTER FORM SCRIPT ----------
+    const registerForm = document.getElementById("registerForm");
+
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (name === "" || email === "" || password === "") {
+        alert("Please fill in all fields!");
+        return;
+      }
+
+      // Email must end with @email.com
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@email\.com$/;
+      if (!emailPattern.test(email)) {
+        alert("Email must end with @email.com");
+        return;
+      }
+
+      // Save user info in localStorage
+      const user = { name, email, password };
+      localStorage.setItem("user", JSON.stringify(user));
+
+      alert("Account created successfully! Welcome, " + name);
+      window.location.href = "login.html"; // Redirect to login page after registration
+    });
+  </script>
+</body>
+</html>
