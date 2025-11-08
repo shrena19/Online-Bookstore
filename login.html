@@ -1,0 +1,83 @@
+<html>
+<head>
+  <title>Login - Online BookStore</title>
+  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="brand">
+      <a href="index.html"><img src="./img/logo.png" alt="logo" class="logo"></a>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <div class="auth-box">
+      <h2>Login</h2>
+      <form id="loginForm" novalidate>
+        <div class="input-icon">
+          <input type="email" id="email" placeholder="Email" required>
+          <i class='bx bxs-envelope'></i>
+          <div class="error" id="emailError"></div>
+        </div>
+
+        <div class="input-icon">
+          <input type="password" id="password" placeholder="Password" required>
+          <i class='bx bxs-lock-alt'></i>
+          <div class="error" id="passwordError"></div>
+        </div>
+
+        <button class="btn" type="submit">Login</button>
+        <div class="success" id="successMsg"></div>
+        <p>Don't have an account? <a href="register.html">Register</a></p>
+      </form>
+    </div>
+  </main>
+
+  
+  
+  
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+    const successMsg = document.getElementById('successMsg');
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      let valid = true;
+      emailError.textContent = "";
+      passwordError.textContent = "";
+      successMsg.textContent = "";
+
+      const emailValue = email.value.trim();
+      const passwordValue = password.value.trim();
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+      
+      if (!emailValue.match(emailPattern)) {
+        emailError.textContent = "Please enter a valid email.";
+        valid = false;
+      }
+
+      
+      if (passwordValue.length < 6) {
+        passwordError.textContent = "Password must be at least 6 characters.";
+        valid = false;
+      }
+
+      if (valid) {
+        successMsg.textContent = "Login successful! Redirecting...";
+        setTimeout(() => {
+          window.location.href = "index.html"; 
+        }, 1500);
+      }
+    });
+  </script>
+</body>
+</html>
