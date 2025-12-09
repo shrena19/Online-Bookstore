@@ -120,9 +120,38 @@ nav {
 
 
 .services {
+    width: 100%;
     padding: 80px 50px;
     text-align: center;
-    background: #f5f5f5;
+    background: #eaf6ff; /* match your main theme color */
+}
+
+.services {
+    width: 100%;
+    padding: 80px 50px;
+    text-align: center;
+    background: #eaf6ff; /* match your main theme color */
+}
+
+.services {
+    width: 100%;
+    padding: 80px 50px;
+    text-align: center;
+    background: #eaf6ff; /* match your main theme color */
+}
+
+.services {
+    width: 100%;
+    padding: 80px 50px;
+    text-align: center;
+    background: #eaf6ff; /* match your main theme color */
+}
+
+.services {
+    width: 100%;
+    padding: 80px 50px;
+    text-align: center;
+    background: #eaf6ff; /* match your main theme color */
 }
 
 .service-box {
@@ -234,13 +263,12 @@ footer {
         margin-bottom: 20px;
     }
 }
-/* Featured Books Section */
+
 .featured {
     padding: 80px 50px;
-    background: #f8f9fa;
+    background: #eaf6ff; 
     text-align: center;
 }
-
 .center-text h2 {
     font-size: 36px;
     color: #222;
@@ -325,6 +353,43 @@ footer {
         height: 250px;
     }
 }
+
+
+ .why-choose-us {
+    width: 100%;
+    background: #eaf6ff; 
+    padding: 60px 50px 20px; 
+}
+
+.why-choose-us .center-text {
+    text-align: center;
+}
+
+.why-choose-us h2 {
+    font-size: 36px;
+    color: #089da1; 
+    margin-bottom: 10px;
+}
+
+.why-choose-us p {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

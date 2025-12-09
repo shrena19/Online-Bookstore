@@ -1,0 +1,271 @@
+
+<html>
+<head>
+<title>Admin Dashboard - Online BookStore</title>
+<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+<style>
+
+* { box-sizing: border-box; margin:0; padding:0; font-family: 'Poppins', sans-serif; }
+body { background:#eaf6ff; color:#222; line-height:1.5; }
+
+
+#loginPage { display:flex; justify-content:center; align-items:center; height:100vh; }
+.login-box { background:white; padding:30px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.08); width:300px; }
+.login-box h2 { text-align:center; color:#089da1; margin-bottom:20px; }
+.login-box input { width:100%; padding:10px; margin:10px 0; border-radius:5px; border:1px solid #ccc; }
+.login-box button { width:100%; padding:12px; border:none; border-radius:5px; background:#089da1; color:white; cursor:pointer; transition:0.3s; }
+.login-box button:hover { background:#066c6f; }
+.error { color:red; text-align:center; display:none; }
+
+#dashboard { display:none; }
+.dashboard { display: flex; min-height: 100vh; }
+
+
+.sidebar { width: 220px; background: #089da1; color:white; flex-shrink: 0; display: flex; flex-direction: column; padding: 20px 0; position: sticky; top:0; }
+.sidebar .logo { display: block; margin: 0 auto 30px; width:120px; }
+.sidebar ul { list-style:none; }
+.sidebar ul li { margin-bottom:20px; }
+.sidebar ul li a { display:flex; align-items:center; gap:12px; color:white; text-decoration:none; font-weight:500; padding:10px 20px; border-radius:8px; transition:0.3s; }
+.sidebar ul li a:hover, .sidebar ul li a.active { background:#dff9fb; color:#089da1; }
+
+
+.main-content { flex:1; padding:30px 40px; }
+.main-content header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
+.main-content header h1 { font-size:2rem; color:#089da1; }
+.btn-logout { padding:8px 18px; border:none; border-radius:8px; background:#e53935; color:white; cursor:pointer; transition:0.3s; }
+.btn-logout:hover { background:#c62828; }
+
+
+.stats { display:flex; flex-wrap:wrap; gap:20px; margin-bottom:40px; }
+.stat-card { flex:1; min-width:200px; background:white; padding:20px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08); transition:transform 0.3s; text-align:center; }
+.stat-card:hover { transform:translateY(-5px); }
+.stat-card h3 { color:#089da1; margin-bottom:8px; font-size:1.5rem; }
+.stat-card p { color:#555; font-size:0.95rem; }
+
+.admin-form-section { background:white; padding:25px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08); margin-bottom:40px; }
+.admin-form-section h2 { color:#089da1; margin-bottom:20px; }
+.admin-form input { width:100%; margin:10px 0; padding:12px; border-radius:8px; border:1px solid #ccc; font-size:1rem; }
+.admin-form .btn { width:100%; background:#089da1; color:white; border:none; padding:12px; border-radius:10px; cursor:pointer; transition:0.3s; }
+.admin-form .btn:hover { background:#066c6f; }
+
+
+.book-cards { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:20px; margin-bottom:40px; }
+.book-card-admin { background:white; padding:20px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.08); text-align:center; transition:0.3s; }
+.book-card-admin:hover { transform:translateY(-5px); }
+.book-card-admin img { width:120px; height:160px; object-fit:cover; border-radius:10px; margin-bottom:12px; }
+.book-card-admin h4 { color:#089da1; margin-bottom:6px; }
+.book-card-admin p { color:#555; margin-bottom:10px; }
+.book-card-admin .book-actions button { margin:5px 5px; padding:8px 12px; border:none; border-radius:8px; cursor:pointer; transition:0.3s; }
+.edit-btn { background:#ff9800; color:white; }
+.edit-btn:hover { background:#e68a00; }
+.delete-btn { background:#e53935; color:white; }
+.delete-btn:hover { background:#c62828; }
+
+
+.book-table-section { background:white; padding:20px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08); }
+.book-table-section h2 { color:#089da1; margin-bottom:20px; }
+table { width:100%; border-collapse:collapse; font-size:0.95rem; }
+table thead { background:#089da1; color:white; }
+table th, table td { padding:12px 10px; text-align:center; border-bottom:1px solid #ddd; }
+table img { width:80px; height:100px; object-fit:cover; border-radius:8px; }
+
+\
+@media(max-width:1000px) { .dashboard { flex-direction:column; } .sidebar { width:100%; flex-direction:row; overflow-x:auto; padding:10px 0; } .sidebar ul { display:flex; gap:10px; flex-wrap:nowrap; } .sidebar ul li { margin-bottom:0; } }
+@media(max-width:600px) { .book-cards { grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); } table th, table td { font-size:0.85rem; padding:8px 5px; } }
+</style>
+</head>
+<body>
+
+<div id="loginPage">
+  <div class="login-box">
+    <h2>Admin Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p class="error" id="error">Invalid username or password</p>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard">
+  <div class="dashboard">
+    <aside class="sidebar">
+      <img src="./img/logo.png" alt="logo" class="logo">
+      <ul>
+        <li><a href="#" class="active"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+        <li><a href="#addBook"><i class='bx bxs-book-add'></i> Add Book</a></li>
+        <li><a href="#bookCards"><i class='bx bxs-book'></i> Book Cards</a></li>
+        <li><a href="#bookTable"><i class='bx bxs-book-alt'></i> Book Table</a></li>
+      </ul>
+    </aside>
+
+    <div class="main-content">
+      <header>
+        <h1>📚 Admin Dashboard</h1>
+        <button id="logoutBtn" class="btn-logout">Logout</button>
+      </header>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat-card">
+          <h3 id="totalBooks">0</h3>
+          <p>Total Books</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="totalOrders">0</h3>
+          <p>Total Orders</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="totalUsers">0</h3>
+          <p>Total Users</p>
+        </div>
+      </div>
+
+      
+      <section class="admin-form-section" id="addBook">
+        <h2>Add / Update Book</h2>
+        <form id="bookForm" class="admin-form">
+          <input type="text" id="bookTitle" placeholder="Book Title" required>
+          <input type="text" id="bookAuthor" placeholder="Author" required>
+          <input type="number" id="bookPrice" placeholder="Price (NPR)" required>
+          <input type="text" id="bookImage" placeholder="Image URL" required>
+          <input type="hidden" id="editIndex">
+          <button type="submit" class="btn">Add Book</button>
+        </form>
+      </section>
+
+     
+      <section class="book-list-section" id="bookCards">
+        <h2>Book Cards</h2>
+        <div id="bookList" class="book-cards"></div>
+      </section>
+
+      
+      <section class="book-table-section" id="bookTable">
+        <h2>Book Overview</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function login() {
+  const user = document.getElementById('username').value;
+  const pass = document.getElementById('password').value;
+  if(user === 'admin' && pass === 'admin123') {
+    localStorage.setItem('isAdmin', 'true');
+    showDashboard();
+  } else {
+    document.getElementById('error').style.display = 'block';
+  }
+}
+
+function showDashboard() {
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+}
+
+document.getElementById('logoutBtn').addEventListener('click', function(){
+  localStorage.removeItem('isAdmin');
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginPage').style.display = 'flex';
+});
+
+if(localStorage.getItem('isAdmin') === 'true') {
+  showDashboard();
+}
+
+
+let books = [];
+const bookForm = document.getElementById('bookForm');
+const bookList = document.getElementById('bookList');
+const tableBody = document.querySelector('table tbody');
+
+bookForm.addEventListener('submit', function(e){
+  e.preventDefault();
+  const title = document.getElementById('bookTitle').value;
+  const author = document.getElementById('bookAuthor').value;
+  const price = document.getElementById('bookPrice').value;
+  const image = document.getElementById('bookImage').value;
+  const editIndex = document.getElementById('editIndex').value;
+
+  if(editIndex === '') {
+    books.push({title, author, price, image});
+  } else {
+    books[editIndex] = {title, author, price, image};
+    document.getElementById('editIndex').value = '';
+  }
+
+  bookForm.reset();
+  renderBooks();
+});
+
+function renderBooks() {
+  bookList.innerHTML = '';
+  tableBody.innerHTML = '';
+  books.forEach((book, index) => {
+    // Cards
+    const card = document.createElement('div');
+    card.className = 'book-card-admin';
+    card.innerHTML = `
+      <img src="${book.image}" alt="${book.title}">
+      <h4>${book.title}</h4>
+      <p>${book.author}</p>
+      <div class="book-actions">
+        <button class="edit-btn" onclick="editBook(${index})">Edit</button>
+        <button class="delete-btn" onclick="deleteBook(${index})">Delete</button>
+      </div>
+    `;
+    bookList.appendChild(card);
+
+    // Table
+    const row = tableBody.insertRow();
+    row.innerHTML = `
+      <td><img src="${book.image}" alt="${book.title}"></td>
+      <td>${book.title}</td>
+      <td>${book.author}</td>
+      <td>$${book.price}</td>
+      <td>
+        <button class="edit-btn" onclick="editBook(${index})">Edit</button>
+        <button class="delete-btn" onclick="deleteBook(${index})">Delete</button>
+      </td>
+    `;
+  });
+
+  
+  document.getElementById('totalBooks').textContent = books.length;
+  document.getElementById('totalOrders').textContent = 0; 
+  document.getElementById('totalUsers').textContent = 0; 
+}
+
+function editBook(index) {
+  const book = books[index];
+  document.getElementById('bookTitle').value = book.title;
+  document.getElementById('bookAuthor').value = book.author;
+  document.getElementById('bookPrice').value = book.price;
+  document.getElementById('bookImage').value = book.image;
+  document.getElementById('editIndex').value = index;
+}
+
+function deleteBook(index) {
+  if(confirm('Are you sure you want to delete this book?')) {
+    books.splice(index, 1);
+    renderBooks();
+  }
+}
+</script>
+</body>
+</html>

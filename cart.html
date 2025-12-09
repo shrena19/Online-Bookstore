@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart - Online Bookstore</title>
+
+<style>
+/* Reset & Base */
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+body { background:#f5f5f5; color:#222; line-height:1.5; }
+
+/* Cart Section */
+.cart {
+    width: 100%;
+    padding: 60px 50px;
+    background: #f5f5f5;
+}
+
+.cart .center-text {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.cart .center-text h2 {
+    font-size: 36px;
+    color: #089da1;
+}
+
+.cart .center-text p {
+    font-size: 16px;
+    color: #333;
+}
+
+.cart-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.cart-container table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cart-container th, .cart-container td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-container img {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.qty {
+    width: 60px;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.remove-btn {
+    background: #e53935;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.remove-btn:hover {
+    background: #c62828;
+}
+
+.cart-total {
+    text-align: right;
+}
+
+.checkout-btn {
+    background: #089da1;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.checkout-btn:hover {
+    background: #066c6f;
+}
+
+/* Responsive */
+@media(max-width:900px){
+    .cart-container table, .cart-container th, .cart-container td {
+        font-size: 14px;
+        padding: 8px;
+    }
+    .qty { width: 50px; }
+}
+</style>
+</head>
+
+<body>
+
+<section class="cart" id="cart">
+  <div class="center-text">
+    <h2>Your Cart</h2>
+    <p>Review the books you have added before checkout.</p>
+  </div>
+
+  <div class="cart-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Book</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody id="cartItems">
+        <tr>
+          <td><img src="img/book1.jpg" alt="Book 1"></td>
+          <td>The Great Adventure</td>
+          <td>John Doe</td>
+          <td>NPR 960</td>
+          <td><input type="number" value="1" min="1" class="qty"></td>
+          <td>NPR 960</td>
+          <td><button class="remove-btn">Remove</button></td>
+        </tr>
+        <tr>
+          <td><img src="img/book2.jpg" alt="Book 2"></td>
+          <td>Learning JavaScript</td>
+          <td>Jane Smith</td>
+          <td>NRP1200</td>
+          <td><input type="number" value="1" min="1" class="qty"></td>
+          <td>NPR 960</td>
+          <td><button class="remove-btn">Remove</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cart-total">
+      <h3>Total: NPR 960 <span id="totalPrice"></span></h3>
+      <button class="checkout-btn">Checkout</button>
+    </div>
+  </div>
+</section>
+
+<script>
+// Update total price when quantity changes
+const cartItems = document.querySelectorAll('#cartItems tr');
+function updateTotalPrice() {
+    let total = 0;
+    cartItems.forEach(item => {
+        const totalCell = item.children[5];
+        total += parseFloat(totalCell.textContent.replace('NPR',''));
+    });
+    document.getElementById('totalPrice').textContent = total.toFixed(2);
+}
+
+cartItems.forEach(item => {
+    const qtyInput = item.querySelector('.qty');
+    const priceCell = item.children[3];
+    const totalCell = item.children[5];
+
+    qtyInput.addEventListener('input', () => {
+        const price = parseFloat(priceCell.textContent.replace('NPR',''));
+        const qty = parseInt(qtyInput.value);
+        totalCell.textContent = `NPR{(price * qty).toFixed(2)}`;
+        updateTotalPrice();
+    });
+
+    // Remove item from cart
+    const removeBtn = item.querySelector('.remove-btn');
+    removeBtn.addEventListener('click', () => {
+        item.remove();
+        updateTotalPrice();
+    });
+});
+</script>
+
+</body>
+</html>
