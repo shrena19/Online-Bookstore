@@ -1,0 +1,18 @@
+
+# Protect local database credentials
+db.php
+.env
+.env.*
+
+# Temporary files
+*.log
+*.tmp
+*.zip
+
+# Editor and system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+s
+hash.php
